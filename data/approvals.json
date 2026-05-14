@@ -1,0 +1,112 @@
+[
+  {
+    "rul_lead_id": "RUL1000126998",
+    "mobile_masked": "90XXXX5660",
+    "approval_datetime": "2026-05-14 12:20",
+    "approval_date": "2026-05-14",
+    "funnel_state": "VIEW_FINAL_OFFERS",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126961",
+    "mobile_masked": "98XXXX0832",
+    "approval_datetime": "2026-05-14 11:55",
+    "approval_date": "2026-05-14",
+    "funnel_state": "VIEW_FINALISED_OFFER",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126968",
+    "mobile_masked": "95XXXX0683",
+    "approval_datetime": "2026-05-14 11:10",
+    "approval_date": "2026-05-14",
+    "funnel_state": "VIEW_FINAL_OFFER_LOAN_SUMMARY",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126956",
+    "mobile_masked": "90XXXX5890",
+    "approval_datetime": "2026-05-14 10:54",
+    "approval_date": "2026-05-14",
+    "funnel_state": "VIEW_FINAL_OFFER_LOAN_SUMMARY",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126951",
+    "mobile_masked": "94XXXX1580",
+    "approval_datetime": "2026-05-14 10:40",
+    "approval_date": "2026-05-14",
+    "funnel_state": "VIEW_FINAL_OFFERS",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126930",
+    "mobile_masked": "99XXXX4043",
+    "approval_datetime": "2026-05-14 10:24",
+    "approval_date": "2026-05-14",
+    "funnel_state": "VIEW_FINAL_OFFERS",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126955",
+    "mobile_masked": "99XXXX1073",
+    "approval_datetime": "2026-05-14 10:15",
+    "approval_date": "2026-05-14",
+    "funnel_state": "VIEW_FINALISED_OFFER",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126921",
+    "mobile_masked": "99XXXX5295",
+    "approval_datetime": "2026-05-14 09:58",
+    "approval_date": "2026-05-14",
+    "funnel_state": "VIEW_FINALISED_OFFER",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126928",
+    "mobile_masked": "95XXXX6631",
+    "approval_datetime": "2026-05-13 18:30",
+    "approval_date": "2026-05-13",
+    "funnel_state": "VIEW_FINAL_OFFERS",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126932",
+    "mobile_masked": "92XXXX3273",
+    "approval_datetime": "2026-05-13 17:20",
+    "approval_date": "2026-05-13",
+    "funnel_state": "VIEW_FINALISED_OFFER",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  },
+  {
+    "rul_lead_id": "RUL1000126949",
+    "mobile_masked": "88XXXX0050",
+    "approval_datetime": "2026-05-13 16:05",
+    "approval_date": "2026-05-13",
+    "funnel_state": "VIEW_FINAL_OFFERS",
+    "source": "DIY",
+    "sub_source": "PreStamped",
+    "lead_created_date": "2026-05-13"
+  }
+]

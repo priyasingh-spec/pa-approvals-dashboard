@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="3600">
+<title>LAC Approvals — Refinance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0c0d0e;
+    --bg-elev:   #14161a;
+    --bg-row:    #101216;
+    --border:    #1f2329;
+    --border-lt: #2a2f37;
+    --ink:       #e8e9ea;
+    --ink-dim:   #8a8f98;
+    --ink-faint: #4a4f58;
+    --accent:    #ffd34f;
+    --green:     #4ade80;
+    --red:       #ef5252;
+    --blue:      #6ea8fe;
+    --display:   'Fraunces', Georgia, serif;
+    --sans:      'Inter Tight', -apple-system, system-ui, sans-serif;
+    --mono:      'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ─── Background pattern ────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(255,211,79,0.03), transparent 50%),
+      radial-gradient(circle at 80% 100%, rgba(110,168,254,0.025), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 28px 60px;
+  }
+
+  /* ─── Header ────────────────────────────────────────────── */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 22px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .brand-mark {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    padding: 5px 9px;
+    border: 1px solid var(--border-lt);
+    border-radius: 3px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    font-feature-settings: "ss01" 1;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .meta {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.02em;
+  }
+  .meta .pulse {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-right: 6px;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50%      { opacity: 1; }
+  }
+
+  /* ─── KPI tiles ─────────────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .kpi {
+    background: var(--bg-elev);
+    padding: 22px 24px;
+  }
+  .kpi-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .kpi-value {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 44px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-feature-settings: "tnum" 1;
+  }
+  .kpi-value.accent { color: var(--accent); }
+  .kpi-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-top: 10px;
+  }
+
+  /* ─── Filter bar ────────────────────────────────────────── */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 0;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .filter-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    margin-right: -12px;
+  }
+  .chip-group {
+    display: flex;
+    gap: 4px;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 7px 14px;
+    background: transparent;
+    color: var(--ink-dim);
+    border: 1px solid var(--border-lt);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    letter-spacing: 0.02em;
+  }
+  .chip:hover {
+    border-color: var(--ink-dim);
+    color: var(--ink);
+  }
+  .chip.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .filter-bar input[type="text"],
+  .filter-bar select {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-lt);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 7px 11px;
+    border-radius: 3px;
+    outline: none;
+    min-width: 180px;
+  }
+  .filter-bar input[type="text"]:focus,
+  .filter-bar select:focus {
+    border-color: var(--accent);
+  }
+  .filter-bar input[type="text"]::placeholder {
+    color: var(--ink-faint);
+  }
+  .filter-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .row-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 7px 13px;
+    border: 1px solid var(--border-lt);
+    background: transparent;
+    color: var(--ink-dim);
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.15s;
+  }
+  .btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  /* ─── Table ─────────────────────────────────────────────── */
+  .table-wrap {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 12.5px;
+  }
+  th {
+    text-align: left;
+    padding: 11px 16px;
+    background: var(--bg);
+    color: var(--ink-dim);
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+    vertical-align: middle;
+  }
+  tbody tr {
+    transition: background 0.1s ease;
+  }
+  tbody tr:hover {
+    background: var(--bg-row);
+  }
+  tbody tr.fresh td {
+    border-left: 2px solid transparent;
+  }
+  tbody tr.fresh td:first-child {
+    border-left-color: var(--accent);
+    position: relative;
+  }
+  td.lead-id { color: var(--blue); font-weight: 500; }
+  td.timestamp { color: var(--ink-dim); }
+  td.mobile { font-family: var(--mono); letter-spacing: 0.04em; }
+  td.empty-state {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--ink-faint);
+    border-left: none !important;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  .state-pill {
+    display: inline-block;
+    padding: 3px 8px;
+    background: var(--bg);
+    border: 1px solid var(--border-lt);
+    border-radius: 2px;
+    font-size: 10.5px;
+    color: var(--ink-dim);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .state-pill.summary { color: var(--green); border-color: rgba(74,222,128,0.3); }
+  .state-pill.finalised { color: var(--accent); border-color: rgba(255,211,79,0.3); }
+
+  .fresh-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-left: 6px;
+    text-transform: uppercase;
+  }
+
+  /* ─── Footer ────────────────────────────────────────────── */
+  footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+  footer a { color: var(--ink-dim); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+
+  /* ─── Responsive ────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .filter-bar { flex-wrap: wrap; }
+    h1 { font-size: 24px; }
+    .kpi-value { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="brand">
+      <span class="brand-mark">CFSPL · Refinance</span>
+      <h1>LAC <em>Approvals</em></h1>
+    </div>
+    <div class="meta">
+      <div><span class="pulse"></span>LIVE · refresh hourly</div>
+      <div id="last-updated" style="margin-top: 4px;">loading…</div>
+    </div>
+  </header>
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Total approvals</div>
+      <div class="kpi-value" id="kpi-total">—</div>
+      <div class="kpi-sub" id="kpi-total-sub">in range</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Today</div>
+      <div class="kpi-value accent" id="kpi-today">—</div>
+      <div class="kpi-sub" id="kpi-today-sub">since midnight IST</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Yesterday</div>
+      <div class="kpi-value" id="kpi-yest">—</div>
+      <div class="kpi-sub">previous day total</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Last 7 days</div>
+      <div class="kpi-value" id="kpi-7d">—</div>
+      <div class="kpi-sub" id="kpi-7d-avg">avg per day</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <span class="filter-label">Range</span>
+    <div class="chip-group" id="date-chips">
+      <button class="chip" data-range="today">Today</button>
+      <button class="chip" data-range="yesterday">Yesterday</button>
+      <button class="chip" data-range="7d">7 Days</button>
+      <button class="chip active" data-range="mtd">MTD</button>
+      <button class="chip" data-range="30d">30 Days</button>
+    </div>
+
+    <span class="filter-label">Source</span>
+    <select id="source-select"><option value="">All</option></select>
+
+    <input type="text" id="search-input" placeholder="Search Lead ID or mobile…">
+
+    <div class="filter-actions">
+      <span class="row-count" id="row-count">—</span>
+      <button class="btn" id="download-btn">↓ CSV</button>
+      <button class="btn" id="refresh-btn">↻ Refresh</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 160px;">Approved On</th>
+          <th style="width: 140px;">Lead ID</th>
+          <th style="width: 120px;">Mobile</th>
+          <th>Funnel State</th>
+          <th>Source</th>
+          <th>Sub-Source</th>
+          <th style="width: 110px;">Lead Created</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <tr><td colspan="7" class="empty-state">Loading data…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <div>
+      Sources: PRE_STAMPED_LEADS · LEAD_DETAILS · REJECTIONS
+    </div>
+    <div>
+      PII masked · No customer data exposed in URL
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// ─── State ────────────────────────────────────────────────
+let allRows = [];
+let activeRange = 'mtd';
+let activeSource = '';
+let searchTerm = '';
+
+// ─── Helpers ──────────────────────────────────────────────
+function todayIST() {
+  // Current date string in IST as YYYY-MM-DD
+  const now = new Date();
+  const ist = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
+  return ist.toISOString().slice(0, 10);
+}
+
+function dateAddDays(yyyymmdd, days) {
+  const d = new Date(yyyymmdd + 'T00:00:00Z');
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+function getRange(rangeKey) {
+  const today = todayIST();
+  switch (rangeKey) {
+    case 'today':     return [today, today];
+    case 'yesterday': return [dateAddDays(today, -1), dateAddDays(today, -1)];
+    case '7d':        return [dateAddDays(today, -6), today];
+    case 'mtd':       return [today.slice(0, 7) + '-01', today];
+    case '30d':       return [dateAddDays(today, -29), today];
+    default:          return [today.slice(0, 7) + '-01', today];
+  }
+}
+
+function inRange(rowDate, start, end) {
+  return rowDate >= start && rowDate <= end;
+}
+
+function isFreshRow(approvalDatetime) {
+  // "fresh" = within last hour
+  if (!approvalDatetime) return false;
+  const approvalUtc = new Date(approvalDatetime.replace(' ', 'T') + ':00+05:30');
+  const ageMin = (Date.now() - approvalUtc.getTime()) / (1000 * 60);
+  return ageMin >= 0 && ageMin <= 60;
+}
+
+function applyFilters() {
+  const [start, end] = getRange(activeRange);
+  const rows = allRows.filter(r => {
+    if (!inRange(r.approval_date, start, end)) return false;
+    if (activeSource && r.source !== activeSource) return false;
+    if (searchTerm) {
+      const s = searchTerm.toLowerCase();
+      if (!r.rul_lead_id.toLowerCase().includes(s) &&
+          !(r.mobile_masked || '').toLowerCase().includes(s)) return false;
+    }
+    return true;
+  });
+  render(rows);
+}
+
+function render(rows) {
+  renderKPIs(rows);
+  renderTable(rows);
+  document.getElementById('row-count').textContent =
+    `${rows.length} of ${allRows.length} rows`;
+}
+
+function renderKPIs(filteredRows) {
+  const today = todayIST();
+  const yest = dateAddDays(today, -1);
+  const sevenDaysAgo = dateAddDays(today, -6);
+
+  const todayCount = allRows.filter(r => r.approval_date === today).length;
+  const yestCount = allRows.filter(r => r.approval_date === yest).length;
+  const sevenCount = allRows.filter(r =>
+    r.approval_date >= sevenDaysAgo && r.approval_date <= today
+  ).length;
+
+  document.getElementById('kpi-total').textContent = filteredRows.length.toLocaleString();
+  document.getElementById('kpi-today').textContent = todayCount.toLocaleString();
+  document.getElementById('kpi-yest').textContent = yestCount.toLocaleString();
+  document.getElementById('kpi-7d').textContent = sevenCount.toLocaleString();
+  document.getElementById('kpi-7d-avg').textContent =
+    `${(sevenCount / 7).toFixed(1)} avg per day`;
+
+  // Today subtitle: delta vs yesterday
+  const delta = todayCount - yestCount;
+  const deltaText = delta >= 0 ? `▲ ${delta} vs yest` : `▼ ${Math.abs(delta)} vs yest`;
+  document.getElementById('kpi-today-sub').textContent = deltaText;
+}
+
+function statePillClass(state) {
+  if (!state) return '';
+  if (state.includes('SUMMARY')) return 'summary';
+  if (state.includes('FINALISED')) return 'finalised';
+  return '';
+}
+
+function renderTable(rows) {
+  const tbody = document.getElementById('table-body');
+  if (rows.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No approvals match the current filter.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(r => {
+    const fresh = isFreshRow(r.approval_datetime);
+    const tag = fresh ? '<span class="fresh-tag">NEW</span>' : '';
+    return `
+      <tr class="${fresh ? 'fresh' : ''}">
+        <td class="timestamp">${r.approval_datetime || '—'}${tag}</td>
+        <td class="lead-id">${r.rul_lead_id || '—'}</td>
+        <td class="mobile">${r.mobile_masked || '—'}</td>
+        <td><span class="state-pill ${statePillClass(r.funnel_state)}">${r.funnel_state || '—'}</span></td>
+        <td>${r.source || '—'}</td>
+        <td>${r.sub_source || '—'}</td>
+        <td class="timestamp">${r.lead_created_date || '—'}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function populateSourceFilter() {
+  const sources = [...new Set(allRows.map(r => r.source).filter(Boolean))].sort();
+  const sel = document.getElementById('source-select');
+  sources.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = s;
+    sel.appendChild(opt);
+  });
+}
+
+function downloadCSV() {
+  const [start, end] = getRange(activeRange);
+  const rows = allRows.filter(r => {
+    if (!inRange(r.approval_date, start, end)) return false;
+    if (activeSource && r.source !== activeSource) return false;
+    if (searchTerm) {
+      const s = searchTerm.toLowerCase();
+      if (!r.rul_lead_id.toLowerCase().includes(s) &&
+          !(r.mobile_masked || '').toLowerCase().includes(s)) return false;
+    }
+    return true;
+  });
+
+  const headers = ['Approved On','Lead ID','Mobile (Masked)','Funnel State','Source','Sub-Source','Lead Created'];
+  const csv = [
+    headers.join(','),
+    ...rows.map(r => [
+      r.approval_datetime, r.rul_lead_id, r.mobile_masked,
+      r.funnel_state, r.source, r.sub_source, r.lead_created_date,
+    ].map(v => `"${(v || '').replace(/"/g, '""')}"`).join(','))
+  ].join('\n');
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `lac_approvals_${start}_to_${end}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── Event listeners ──────────────────────────────────────
+document.querySelectorAll('#date-chips .chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('#date-chips .chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeRange = chip.dataset.range;
+    applyFilters();
+  });
+});
+
+document.getElementById('source-select').addEventListener('change', e => {
+  activeSource = e.target.value;
+  applyFilters();
+});
+
+document.getElementById('search-input').addEventListener('input', e => {
+  searchTerm = e.target.value;
+  applyFilters();
+});
+
+document.getElementById('refresh-btn').addEventListener('click', () => location.reload());
+document.getElementById('download-btn').addEventListener('click', downloadCSV);
+
+// ─── Load data ────────────────────────────────────────────
+async function loadData() {
+  try {
+    // Cache-bust so GitHub Pages CDN doesn't serve stale JSON
+    const bust = Date.now();
+    const [dataRes, metaRes] = await Promise.all([
+      fetch(`data/approvals.json?t=${bust}`),
+      fetch(`data/last_updated.json?t=${bust}`)
+    ]);
+    allRows = await dataRes.json();
+    const meta = await metaRes.json();
+    document.getElementById('last-updated').textContent =
+      `Updated ${meta.last_updated_ist}`;
+    populateSourceFilter();
+    applyFilters();
+  } catch (err) {
+    document.getElementById('table-body').innerHTML =
+      `<tr><td colspan="7" class="empty-state">Could not load data. ${err.message}</td></tr>`;
+  }
+}
+
+loadData();
+</script>
+
+</body>
+</html>
